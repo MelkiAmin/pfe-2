@@ -4,29 +4,55 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-%2c%=t)j5jv5hce#%5flgw0p*vkwxa+s8*#67g8gp$x6nbm&rf'
+# ==============================
+# SECURITY
+# ==============================
 
-DEBUG = True
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key')
 
-ALLOWED_HOSTS = []
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-# Application definition
+ALLOWED_HOSTS = ['*'] if DEBUG else ['yourdomain.com']
+
+
+# ==============================
+# INSTALLED APPS
+# ==============================
+
 INSTALLED_APPS = [
+    # Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third-party
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'drf_spectacular',
-    'core',
+
+    # Local Apps
+    'apps.accounts',
+    'apps.events',
+    'apps.tickets',
+    'apps.payments',
+    'apps.organizer',
+    'apps.notifications',
+    'apps.admin_panel',
+    'apps.core',
 ]
+
+
+# ==============================
+# MIDDLEWARE
+# ==============================
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -36,39 +62,37 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'planova.urls'
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-# SendGrid
-SENDGRID_API_KEY = 'votre_cle_sendgrid'
-DEFAULT_FROM_EMAIL = 'noreply@hotelmate.com'
-
-
 WSGI_APPLICATION = 'planova.wsgi.application'
+
+
+# ==============================
+# DATABASE
+# ==============================
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'planova_db',
-        'USER': 'planova_user',
+        'USER': 'planova',
         'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
+
+# ==============================
+# AUTH USER
+# ==============================
+
+AUTH_USER_MODEL = 'accounts.User'
+
+
+# ==============================
+# PASSWORD VALIDATORS
+# ==============================
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -77,20 +101,38 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+
+# ==============================
+# INTERNATIONALIZATION
+# ==============================
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
+
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
 
-# Custom User Model
-AUTH_USER_MODEL = 'core.User'
+# ==============================
+# STATIC FILES
+# ==============================
 
-# CORS
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+# ==============================
+# CORS (Dev Only)
+# ==============================
+
 CORS_ALLOW_ALL_ORIGINS = True
 
-# REST Framework
+
+# ==============================
+# REST FRAMEWORK
+# ==============================
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -101,22 +143,57 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-# JWT
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],  # optional but recommended
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+# ==============================
+# JWT CONFIGURATION
+# ==============================
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
 }
 
-# Swagger
+
+# ==============================
+# SWAGGER (DRF SPECTACULAR)
+# ==============================
+
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'HotelMate API',
+    'TITLE': 'Planova API',
+    'DESCRIPTION': 'API documentation for Planova project',
     'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
 
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = ['*']
 
-# WhiteNoise pour les fichiers statiques
-MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# ==============================
+# STRIPE (FIXED)
+# ==============================
+
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', '')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
+
+
+# ==============================
+# EMAIL
+# ==============================
+
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', '')
+DEFAULT_FROM_EMAIL = 'noreply@planova.com'

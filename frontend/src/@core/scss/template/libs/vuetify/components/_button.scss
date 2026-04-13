@@ -3,9 +3,6 @@
 @use "@core/scss/template/mixins" as templateMixins;
 @use "@configured-variables" as variables;
 
-/* 👉 Button
- Above map but opacity values as key and variant as value */
-
 $btn-active-overlay-opacity: (
   0.08: (outlined, flat, text, plain),
   0.24: (tonal),
@@ -21,25 +18,22 @@ $btn-focus-overlay-opacity: (
 );
 
 body .v-btn {
-  // ℹ️ This is necessary because as we have darker overlay on hover for elevated variant, button text doesn't get dimmed
-  // This style is already applied to `.v-icon`
+
   .v-btn__content {
     z-index: 0;
   }
 
-  transition: all 0.135s ease; /* Add transition */
+  transition: all 0.135s ease;
 
   &:active {
     transform: scale(0.98);
   }
 
-  // Add transition on hover
   &:not(.v-btn--loading) .v-btn__overlay {
     transition: opacity 0.15s ease-in-out;
     will-change: opacity;
   }
 
-  // box-shadow
   @each $color-name in variables.$theme-colors-name {
     &:not(.v-btn--disabled) {
       &.bg-#{$color-name}.v-btn--variant-elevated {
@@ -53,15 +47,10 @@ body .v-btn {
     }
   }
 
-  /*
-    Loop over $btn-active-overlay-opacity map and add active styles for each variant.
-    Group variants with same opacity value.
-  */
   @each $opacity, $variants in $btn-active-overlay-opacity {
     $overlay-selectors: ();
     $underlay-selectors: ();
 
-    // append each variant to selectors list
     @each $variant in $variants {
       $overlay-selectors: list.append($overlay-selectors, "&.v-btn--variant-#{$variant}:active > .v-btn__overlay,");
       $underlay-selectors: list.append($underlay-selectors, "&.v-btn--variant-#{$variant}:active > .v-btn__underlay,");
@@ -81,7 +70,6 @@ body .v-btn {
   @each $opacity, $variants in $btn-focus-overlay-opacity {
     $selectors: ();
 
-    // append each variant to selectors list
     @each $variant in $variants {
       $selectors: list.append($selectors, "&.v-btn--variant-#{$variant}:focus > .v-btn__overlay,");
     }
@@ -91,14 +79,9 @@ body .v-btn {
     }
   }
 
-  /*
-    Loop over $btn-hover-overlay-opacity map and add hover styles for each variant.
-    Group variants with same opacity value.
-  */
   @each $opacity, $variants in $btn-hover-overlay-opacity {
     $selectors: ();
 
-    // append each variant to selectors list
     @each $variant in $variants {
       $selectors: list.append($selectors, "&.v-btn--variant-#{$variant}:hover > .v-btn__overlay,");
     }
@@ -108,10 +91,9 @@ body .v-btn {
     }
   }
 
-  // Default (elevated) button
   &--variant-elevated,
   &--variant-flat {
-    // We want a darken color on hover
+
     &:not(.v-btn--loading, .v-btn--disabled) {
       @each $color-name in variables.$theme-colors-name {
         &.bg-#{$color-name} {
@@ -125,7 +107,6 @@ body .v-btn {
     }
   }
 
-  // Outlined button
   &:not(.v-btn--icon, .v-tab).v-btn--variant-text {
     &.v-btn--size-default {
       padding-inline: 0.75rem;
@@ -140,7 +121,6 @@ body .v-btn {
     }
   }
 
-  // Button border-radius
   &:not(.v-btn--icon).v-btn--size-x-small {
     border-radius: 2px;
   }
@@ -187,7 +167,6 @@ body .v-btn {
     border-radius: 10px;
   }
 
-  // icon buttons
   &.v-btn--icon.v-btn--density-default {
     block-size: var(--v-btn-height);
     inline-size: var(--v-btn-height);

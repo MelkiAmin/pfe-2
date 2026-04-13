@@ -7,7 +7,6 @@ import { getComputedNavLinkToProp, getDynamicI18nProps, isNavLinkActive } from '
 interface Props {
   item: NavLink
 
-  // ℹ️ We haven't added this prop in vertical nav because we don't need such differentiation in vertical nav for styling
   isSubItem?: boolean
 }
 

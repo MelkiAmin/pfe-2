@@ -1,8 +1,7 @@
 @use "@configured-variables" as variables;
 
-// 👉 Timeline
 .v-timeline {
-  // timeline items
+
   .v-timeline-item {
     &:not(:last-child) {
       .v-timeline-item__body {
@@ -28,7 +27,6 @@
     }
   }
 
-  // timeline icon only
   &.v-timeline-icon-only {
     .v-timeline-divider__dot {
       .v-timeline-divider__inner-dot {
@@ -72,12 +70,11 @@
     }
   }
 
-  // we have to override the default bg-color of the timeline dot in the card
   .v-card:not(.v-card--variant-text, .v-card--variant-plain, .v-card--variant-outlined) & {
     &.v-timeline-icon-only {
       .v-timeline-divider__dot {
         .v-timeline-divider__inner-dot {
-          /* stylelint-disable-next-line no-descending-specificity */
+
           background: rgb(var(--v-theme-surface));
         }
       }
@@ -88,7 +85,7 @@
     &.v-timeline-icon-only {
       .v-timeline-divider__dot {
         .v-timeline-divider__inner-dot {
-          /* stylelint-disable-next-line no-descending-specificity */
+
           .v-icon {
             background: none;
           }

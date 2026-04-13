@@ -19,7 +19,7 @@
           @extend %boxed-content;
         }
       }
-      // stylelint-disable-next-line @stylistic/indentation
+
       @else {
         .layout-content-width-boxed & {
           @extend %boxed-content;

@@ -1,7 +1,6 @@
 @use "@configured-variables" as variables;
 @use "@core/scss/template/mixins" as templateMixins;
 
-// 👉 Tabs
 .v-tabs {
   &.v-tabs--vertical {
     --v-tabs-height: 38px !important;
@@ -20,7 +19,6 @@
     }
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .v-btn {
     color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
     transform: none !important;
@@ -42,7 +40,7 @@
     }
 
     &.v-btn--stacked {
-      /* stylelint-disable-next-line no-descending-specificity */
+
       .v-icon {
         block-size: 1.5rem !important;
         font-size: 1.5rem !important;
@@ -50,13 +48,11 @@
       }
     }
 
-    /* stylelint-disable-next-line no-descending-specificity */
     .v-btn__overlay,
     .v-ripple__container {
       opacity: 0 !important;
     }
 
-    /* stylelint-disable-next-line no-descending-specificity */
     .v-tab__slider {
       inset-inline-end: 0;
       inset-inline-start: unset;
@@ -64,7 +60,6 @@
   }
 }
 
-// 👉 Tab Pill
 .v-tabs.v-tabs-pill {
   .v-slide-group__content {
     gap: 0.25rem;

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
-
+from django.utils import timezone
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -18,7 +18,6 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('role', User.Role.ADMIN)
         return self.create_user(email, password, **extra_fields)
 
-
 class User(AbstractBaseUser, PermissionsMixin):
     class Role(models.TextChoices):
         ATTENDEE = 'attendee', 'Attendee'
@@ -34,6 +33,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
+    is_2fa_enabled = models.BooleanField(default=False)
+    two_factor_secret = models.CharField(max_length=64, blank=True)
+    two_factor_enabled_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -50,13 +52,25 @@ class User(AbstractBaseUser, PermissionsMixin):
         return f'{self.first_name} {self.last_name} <{self.email}>'
 
     @property
-    def full_name(self):
+    def full_name(self) -> str:
         return f'{self.first_name} {self.last_name}'
 
     @property
-    def is_organizer(self):
+    def is_organizer(self) -> bool:
         return self.role == self.Role.ORGANIZER
 
     @property
-    def is_admin(self):
+    def is_admin(self) -> bool:
         return self.role == self.Role.ADMIN
+
+    def enable_two_factor(self, secret: str):
+        self.two_factor_secret = secret
+        self.is_2fa_enabled = True
+        self.two_factor_enabled_at = timezone.now()
+        self.save(update_fields=['two_factor_secret', 'is_2fa_enabled', 'two_factor_enabled_at', 'updated_at'])
+
+    def disable_two_factor(self):
+        self.two_factor_secret = ''
+        self.is_2fa_enabled = False
+        self.two_factor_enabled_at = None
+        self.save(update_fields=['two_factor_secret', 'is_2fa_enabled', 'two_factor_enabled_at', 'updated_at'])

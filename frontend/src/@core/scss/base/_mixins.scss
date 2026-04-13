@@ -5,8 +5,6 @@
   box-shadow: map.get(vuetify.$shadow-key-umbra, $z), map.get(vuetify.$shadow-key-penumbra, $z), map.get(vuetify.$shadow-key-ambient, $z) if($important, !important, null);
 }
 
-// #region before-pseudo
-// ℹ️ This mixin is inspired from vuetify for adding hover styles via before pseudo element
 @mixin before-pseudo() {
   position: relative;
 
@@ -23,19 +21,14 @@
   }
 }
 
-// #endregion before-pseudo
-
 @mixin bordered-skin($component, $border-property: "border", $important: false) {
   #{$component} {
     box-shadow: none !important;
-    // stylelint-disable-next-line annotation-no-unknown
+
     #{$border-property}: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) if($important, !important, null);
   }
 }
 
-// #region selected-states
-// ℹ️ Inspired from vuetify's active-states mixin
-// focus => 0.12 & selected => 0.08
 @mixin selected-states($selector) {
   #{$selector} {
     opacity: calc(var(--v-selected-opacity) * var(--v-theme-overlay-multiplier));
@@ -60,4 +53,3 @@
   }
 }
 
-// #endregion selected-states

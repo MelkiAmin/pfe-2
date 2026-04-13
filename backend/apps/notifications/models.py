@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-
 class Notification(models.Model):
     class Type(models.TextChoices):
         TICKET_PURCHASED = 'ticket_purchased', 'Ticket Purchased'

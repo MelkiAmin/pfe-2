@@ -18,7 +18,6 @@ interface ExplicitThemeConfig {
 
 export type UserThemeConfig = LayoutConfig & ExplicitThemeConfig
 
-// SECTION Custom Input
 export interface CustomInputContent {
   title: string
   desc?: string
@@ -37,7 +36,6 @@ export interface GridColumn {
   xxl?: string
 }
 
-// Data table
 export interface SortItem { key: string; order?: boolean | 'asc' | 'desc' }
 
 export interface Options {

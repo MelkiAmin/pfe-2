@@ -8,5 +8,6 @@ router.register('history', views.PaymentViewSet, basename='payment')
 urlpatterns = [
     path('', include(router.urls)),
     path('checkout/', views.CreateCheckoutSessionView.as_view(), name='create-checkout'),
+    path('confirm/', views.PaymentConfirmationView.as_view(), name='confirm-payment'),
     path('webhook/stripe/', views.StripeWebhookView.as_view(), name='stripe-webhook'),
 ]

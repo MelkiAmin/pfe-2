@@ -101,7 +101,7 @@ const toggleFavorite = async (eventId: number) => {
     favoriteByEventId.value[eventId] = created.id
   }
   catch {
-    // Ignore action error silently to keep list navigation smooth.
+
   }
 }
 

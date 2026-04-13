@@ -1,4 +1,4 @@
-// 👉 Zoom fade
+
 .app-transition-zoom-fade-enter-active,
 .app-transition-zoom-fade-leave-active {
   transition: transform 0.35s, opacity 0.28s ease-in-out;
@@ -14,7 +14,6 @@
   transform: scale(1.02);
 }
 
-// 👉 Fade
 .app-transition-fade-enter-active,
 .app-transition-fade-leave-active {
   transition: opacity 0.25s ease-in-out;
@@ -25,7 +24,6 @@
   opacity: 0;
 }
 
-// 👉 Fade bottom
 .app-transition-fade-bottom-enter-active,
 .app-transition-fade-bottom-leave-active {
   transition: opacity 0.3s, transform 0.35s;
@@ -41,7 +39,6 @@
   transform: translateY(0.6rem);
 }
 
-// 👉 Slide fade
 .app-transition-slide-fade-enter-active,
 .app-transition-slide-fade-leave-active {
   transition: opacity 0.3s, transform 0.35s;
@@ -57,7 +54,6 @@
   transform: translateX(0.6rem);
 }
 
-// 👉 Zoom out
 .app-transition-zoom-out-enter-active,
 .app-transition-zoom-out-leave-active {
   transition: opacity 0.26s ease-in-out, transform 0.3s ease-out;

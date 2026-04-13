@@ -20,9 +20,8 @@ $v-input-density: (
   ),
 );
 
-// 👉 VInput
 .v-input {
-  // 👉 VField
+
   .v-field {
     .v-field__loader {
       .v-progress-linear {
@@ -39,19 +38,16 @@ $v-input-density: (
       color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
     }
 
-    // Color for text field
     .v-field__input {
       color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
     }
 
-    // Make field border width 2px when error
     &.v-field--error {
       .v-field__outline {
         --v-field-border-width: 2px;
       }
     }
 
-    // Label
     &.v-field--variant-outlined {
       .v-label {
         &.v-field-label--floating {
@@ -66,7 +62,6 @@ $v-input-density: (
       --v-field-border-opacity: 0.6 !important;
     }
 
-    // Shadow on focus
     &.v-field--variant-outlined.v-field--focused:not(.v-field--error, .v-field--success) {
       .v-field__outline {
         @each $color-name in variables.$theme-colors-name {
@@ -82,7 +77,6 @@ $v-input-density: (
     }
   }
 
-  // Give hint messages color based on theme color
   @each $color-name in variables.$theme-colors-name {
     &:has( .v-field.v-field--focused .v-field__outline.text-#{$color-name}) {
       .v-messages {
@@ -91,7 +85,6 @@ $v-input-density: (
     }
   }
 
-  // Loop through each density setting in the map
   @each $density, $settings in $v-input-density {
     &.v-input--density-#{$density} {
       .v-input__append,
@@ -119,10 +112,6 @@ $v-input-density: (
   }
 }
 
-// 👉 TextField, Select, AutoComplete, ComboBox, Textarea
-// ℹ️ We added .v-application to increase the specificity of the selector
-
-// Styles related to our custom input components
 body {
   .app-text-field,
   .app-select,
@@ -130,15 +119,14 @@ body {
   .app-combobox,
   .app-textarea,
   .app-picker-field {
-    // making padding 0 for help text
+
     .v-text-field .v-input__details {
       padding-inline-start: 0;
     }
 
-    // Placeholder
     .v-input {
       .v-field {
-        // Placeholder transition
+
         input,
         .v-field__input {
           &::placeholder {
@@ -160,7 +148,6 @@ body {
         }
       }
 
-      // padding for different density
       &.v-input--density-default {
         .v-field {
           .v-field__input {
@@ -189,7 +176,6 @@ body {
       }
     }
 
-    // Disabled state
     &:has(.v-input.v-input--disabled) {
       .v-label {
         color: rgba(var(--v-theme-on-surface), 0.38);
@@ -211,7 +197,6 @@ body {
       }
     }
 
-    // Apply color to label
     @each $color-name in variables.$theme-colors-name {
       .v-label {
         color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
@@ -234,12 +219,9 @@ body {
         margin-block: 0 !important;
       }
 
-      // Vertical alignment of placeholder & text
       .v-#{$component-name} .v-field .v-field__input > input {
         align-self: center;
       }
-
-      // Chips
 
       .v-#{$component-name}.v-#{$component-name}--chips.v-input--dirty {
         .v-#{$component-name}__selection {
@@ -275,7 +257,6 @@ body {
   @include style-selectable-component("select");
   @include style-selectable-component("combobox");
 
-  // AutoComplete
   @at-root {
     .app-autocomplete__content {
       .v-list-item--active {
@@ -296,13 +277,12 @@ body {
 }
 
 .app-inner-list {
-  // Hide checkboxes
+
   .v-selection-control {
     display: none;
   }
 }
 
-// Hide resizer
 ::-webkit-resizer {
   background: transparent;
 }

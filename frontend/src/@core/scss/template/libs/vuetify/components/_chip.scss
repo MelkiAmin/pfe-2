@@ -1,4 +1,4 @@
-// 👉 Chip
+
 .v-chip {
   line-height: 1.25rem;
 
@@ -31,7 +31,6 @@
     --v-activated-opacity: 0.08;
   }
 
-  // common style for all sizes
   &.v-chip--size-default,
   &.v-chip--size-small {
     .v-icon--start,
@@ -50,7 +49,6 @@
     }
   }
 
-  // small size
   &:not(.v-chip--pill).v-chip--size-small {
     --v-chip-height: 24px;
 
@@ -71,7 +69,6 @@
     }
   }
 
-  // extra small size
   &:not(.v-chip--pill).v-chip--size-x-small {
     --v-chip-height: 20px;
 
@@ -93,7 +90,6 @@
     }
   }
 
-  // default size
   &:not(.v-chip--pill).v-chip--size-default {
     .v-avatar {
       --v-avatar-height: 20px;

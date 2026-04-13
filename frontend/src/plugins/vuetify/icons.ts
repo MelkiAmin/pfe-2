@@ -51,7 +51,7 @@ const aliases: Partial<IconAliases> = {
 
 export const iconify = {
   component: (props: IconProps) => {
-    // Load custom SVG directly instead of going through icon component
+
     if (typeof props.icon === 'string') {
       const iconComponent = customIcons[props.icon]
 
@@ -64,10 +64,8 @@ export const iconify = {
       {
         ...props,
 
-        // As we are using class based icons
         class: [props.icon],
 
-        // Remove used props from DOM rendering
         tag: undefined,
         icon: undefined,
       },

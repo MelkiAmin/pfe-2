@@ -1,0 +1,15 @@
+Hello {{ user.full_name }},
+
+This is a reminder that "{{ event.title }}" starts soon.
+
+Event details:
+- Starts: {{ event.start_date }}
+- Ends: {{ event.end_date }}
+
+Your tickets:
+{% for ticket in tickets %}
+- {{ ticket.ticket_number }}
+{% endfor %}
+
+See you there,
+Planova

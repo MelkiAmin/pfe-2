@@ -4,7 +4,6 @@
 @use "@configured-variables" as variables;
 @use "@styles/variables/_vuetify.scss" as vuetify;
 
-// 👉 Avatar group
 .v-avatar-group {
   display: flex;
   align-items: center;
@@ -30,7 +29,6 @@
   }
 }
 
-// 👉 Button outline with default color border color
 .v-alert--variant-outlined,
 .v-avatar--variant-outlined,
 .v-btn.v-btn--variant-outlined,
@@ -46,7 +44,6 @@
   }
 }
 
-// 👉 Custom Input
 .v-label.custom-input {
   padding: 1rem;
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
@@ -77,7 +74,6 @@
   }
 }
 
-// 👉 Datatable
 .v-data-table-footer__pagination {
   @include layoutMixins.rtl {
     .v-btn {
@@ -88,9 +84,8 @@
   }
 }
 
-// Dialog responsive width
 .v-dialog {
-  // dialog custom close btn
+
   .v-dialog-close-btn {
     position: absolute;
     z-index: 1;
@@ -139,7 +134,6 @@
   }
 }
 
-// 👉 Expansion panel
 .v-expansion-panels.customized-panels {
   border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
   border-radius: vuetify.$border-radius-root;
@@ -155,7 +149,6 @@
   }
 }
 
-// v-tab with pill support
 .v-tabs.v-tabs-pill {
   .v-tab.v-btn {
     border-radius: 6px !important;
@@ -167,7 +160,6 @@
   }
 }
 
-// loop for all colors bg
 @each $color-name in variables.$theme-colors-name {
   body .v-tabs.v-tabs-pill {
     .v-slide-group__content {
@@ -180,7 +172,6 @@
   }
 }
 
-// ℹ️ We are make even width of all v-timeline body
 .v-timeline--vertical.v-timeline {
   .v-timeline-item {
     .v-timeline-item__body {
@@ -189,7 +180,6 @@
   }
 }
 
-// 👉 Switch
 .v-switch .v-selection-control:not(.v-selection-control--dirty) .v-switch__thumb {
   color: #fff !important;
 }

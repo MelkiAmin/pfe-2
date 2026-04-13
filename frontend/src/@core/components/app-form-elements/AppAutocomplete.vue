@@ -4,8 +4,6 @@ defineOptions({
   inheritAttrs: false,
 })
 
-// const { class: _class, label, variant: _, ...restAttrs } = useAttrs()
-
 const elementId = computed (() => {
   const attrs = useAttrs()
   const _elementIdToken = attrs.id

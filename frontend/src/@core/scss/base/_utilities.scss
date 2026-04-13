@@ -1,9 +1,6 @@
 @use "@configured-variables" as variables;
 @use "@layouts/styles/mixins" as layoutsMixins;
 
-/* 👉 Demo spacers */
-
-/* TODO: Use vuetify SCSS variable here; */
 $card-spacer-content: 16px;
 
 .demo-space-x {
@@ -28,28 +25,16 @@ $card-spacer-content: 16px;
   }
 }
 
-// 👉 Card match height
 .match-height.v-row {
   .v-card {
     block-size: 100%;
   }
 }
 
-// 👉 Whitespace
 .whitespace-no-wrap {
   white-space: nowrap;
 }
 
-// 👉 Colors
-
-/*
-  ℹ️ Vuetify is applying `.text-white` class to badge icon but don't provide its styles
-  Moreover, we also use this class in some places
-
-  ℹ️ In vuetify 2 with `$color-pack: false` SCSS var config this class was getting generated but this is not the case in v3
-
-  ℹ️ We also need !important to get correct color in badge icon
-*/
 .text-white {
   color: #fff !important;
 }
@@ -79,14 +64,12 @@ $card-spacer-content: 16px;
   color: rgb(var(--v-theme-on-primary)) !important;
 }
 
-// [/^bg-light-(\w+)$/, ([, w]) => ({ backgroundColor: `rgba(var(--v-theme-${w}), var(--v-activated-opacity))` })],
 @each $color-name in variables.$theme-colors-name {
   .bg-light-#{$color-name} {
     background-color: rgba(var(--v-theme-#{$color-name}), var(--v-activated-opacity)) !important;
   }
 }
 
-// 👉 clamp text
 .clamp-text {
   display: -webkit-box;
   overflow: hidden;
@@ -107,14 +90,12 @@ $card-spacer-content: 16px;
   line-height: normal !important;
 }
 
-// 👉 for rtl only
 .flip-in-rtl {
   @include layoutsMixins.rtl {
     transform: scaleX(-1);
   }
 }
 
-// 👉 Carousel
 .carousel-delimiter-top-end {
   .v-carousel__controls {
     justify-content: end;

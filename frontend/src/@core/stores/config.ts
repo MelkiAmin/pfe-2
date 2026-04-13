@@ -3,9 +3,8 @@ import { useTheme } from 'vuetify'
 import { cookieRef, useLayoutConfigStore } from '@layouts/stores/config'
 import { themeConfig } from '@themeConfig'
 
-// SECTION Store
 export const useConfigStore = defineStore('config', () => {
-  // 👉 Theme
+
   const userPreferredColorScheme = usePreferredColorScheme()
   const cookieColorScheme = cookieRef<'light' | 'dark'>('color-scheme', 'light')
 
@@ -20,13 +19,10 @@ export const useConfigStore = defineStore('config', () => {
 
   const theme = cookieRef('theme', themeConfig.app.theme)
 
-  // 👉 isVerticalNavSemiDark
   const isVerticalNavSemiDark = cookieRef('isVerticalNavSemiDark', themeConfig.verticalNav.isVerticalNavSemiDark)
 
-  // 👉 isVerticalNavSemiDark
   const skin = cookieRef('skin', themeConfig.app.skin)
 
-  // ℹ️ We need to use `storeToRefs` to forward the state
   const {
     isLessThanOverlayNavBreakpoint,
     appContentWidth,
@@ -43,7 +39,6 @@ export const useConfigStore = defineStore('config', () => {
     isVerticalNavSemiDark,
     skin,
 
-    // @layouts exports
     isLessThanOverlayNavBreakpoint,
     appContentWidth,
     navbarType,
@@ -54,9 +49,7 @@ export const useConfigStore = defineStore('config', () => {
     isAppRTL,
   }
 })
-// !SECTION
 
-// SECTION Init
 export const initConfigStore = () => {
   const userPreferredColorScheme = usePreferredColorScheme()
   const vuetifyTheme = useTheme()
@@ -77,4 +70,4 @@ export const initConfigStore = () => {
       vuetifyTheme.global.name.value = userPreferredColorScheme.value
   })
 }
-// !SECTION
+

@@ -6,14 +6,14 @@
 @use "vuetify/lib/styles/tools/states" as vuetifyStates;
 
 .layout-nav-type-vertical {
-  // 👉 Layout Vertical nav
+
   .layout-vertical-nav {
     $sl-layout-nav-type-vertical: &;
 
     @extend %nav;
 
     @at-root {
-      // ℹ️ Add styles for collapsed vertical nav
+
       .layout-vertical-nav-collapsed#{$sl-layout-nav-type-vertical}.hovered {
         @include mixins.elevation(6);
       }
@@ -21,20 +21,18 @@
 
     background-color: variables.$vertical-nav-background-color;
 
-    // 👉 Nav header
     .nav-header {
       overflow: hidden;
       padding: variables.$vertical-nav-header-padding;
       margin-inline: variables.$vertical-nav-header-inline-spacing;
       min-block-size: variables.$vertical-nav-header-height;
 
-      // TEMPLATE: Check if we need to move this to master
       .app-logo {
         flex-shrink: 0;
         transition: transform 0.25s ease-in-out;
 
         @at-root {
-          // Move logo a bit to align center with the icons in vertical nav mini variant
+
           .layout-vertical-nav-collapsed#{$sl-layout-nav-type-vertical}:not(.hovered) .nav-header .app-logo {
             transform: translateX(variables.$vertical-nav-header-logo-translate-x-when-vertical-nav-mini);
 
@@ -50,7 +48,6 @@
       }
     }
 
-    // 👉 Nav items shadow
     .vertical-nav-items-shadow {
       position: absolute;
       z-index: 1;
@@ -80,12 +77,10 @@
       }
     }
 
-    // ℹ️ Setting z-index 1 will make perfect scrollbar thumb appear on top of vertical nav items shadow;
     .ps__rail-y {
       z-index: 1;
     }
 
-    // 👉 Nav section title
     .nav-section-title {
       @extend %vertical-nav-item;
       @extend %vertical-nav-section-title;
@@ -101,12 +96,10 @@
       }
     }
 
-    // Nav item badge
     .nav-item-badge {
       @extend %vertical-nav-item-badge;
     }
 
-    // 👉 Nav group & Link
     .nav-link,
     .nav-group {
       overflow: hidden;
@@ -130,7 +123,6 @@
       }
     }
 
-    // 👉 Vertical nav link
     .nav-link {
       @extend %nav-link;
 
@@ -139,10 +131,8 @@
       }
 
       > a {
-        // Adds before psudo element to style hover state
-        @include mixins.before-pseudo;
 
-        // Adds vuetify states
+        @include mixins.before-pseudo;
 
         &:not(.router-link-active, .router-link-exact-active) {
           @include vuetifyStates.states($active: false);
@@ -150,9 +140,8 @@
       }
     }
 
-    // 👉 Vertical nav group
     .nav-group {
-      // Reduce the size of icon if link/group is inside group
+
       .nav-group,
       .nav-link {
         .nav-item-icon {
@@ -160,7 +149,6 @@
         }
       }
 
-      // Hide icons after 2nd level
       & .nav-group {
         .nav-link,
         .nav-group {
@@ -177,25 +165,22 @@
         will-change: transform;
       }
 
-      // Rotate arrow icon if group is opened
       &.open {
         > .nav-group-label .nav-group-arrow {
           transform: rotateZ(90deg);
         }
       }
 
-      // Nav group label
       > :first-child {
-        // Adds before psudo element to style hover state
+
         @include mixins.before-pseudo;
       }
 
       &:not(.active,.open) > :first-child {
-        // Adds vuetify states
+
         @include vuetifyStates.states($active: false);
       }
 
-      // Active & open states for nav group label
       &.active,
       &.open {
         > :first-child {
@@ -206,7 +191,6 @@
   }
 }
 
-// SECTION: Transitions
 .vertical-nav-section-title-enter-active,
 .vertical-nav-section-title-leave-active {
   transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
@@ -252,4 +236,3 @@
   }
 }
 
-// !SECTION

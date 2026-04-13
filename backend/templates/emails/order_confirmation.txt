@@ -1,0 +1,19 @@
+Hello {{ user.full_name }},
+
+Your order for "{{ event.title }}" has been confirmed.
+
+Order summary:
+- Payment ID: {{ payment.id }}
+- Amount: {{ payment.amount }} {{ payment.currency }}
+- Tickets: {{ ticket_count }}
+
+Tickets:
+{% for ticket in tickets %}
+- {{ ticket.ticket_number }}
+{% endfor %}
+
+Event details:
+- Starts: {{ event.start_date }}
+- Ends: {{ event.end_date }}
+
+Thank you for using Planova.

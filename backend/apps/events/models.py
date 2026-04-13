@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from django.db.models import Avg
 
-
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True)
@@ -15,7 +14,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class Event(models.Model):
     class Status(models.TextChoices):
@@ -62,25 +60,24 @@ class Event(models.Model):
         return self.title
 
     @property
-    def tickets_sold(self):
+    def tickets_sold(self) -> int:
         return self.tickets.filter(status='confirmed').count()
 
     @property
-    def is_sold_out(self):
+    def is_sold_out(self) -> bool:
         if self.max_capacity is None:
             return False
         return self.tickets_sold >= self.max_capacity
 
     @property
-    def reviews_count(self):
+    def reviews_count(self) -> int:
         return self.reviews.count()
 
     @property
-    def average_rating(self):
+    def average_rating(self) -> float:
         data = self.reviews.aggregate(avg=Avg('rating'))
         avg = data.get('avg')
         return float(avg) if avg is not None else 0.0
-
 
 class Favorite(models.Model):
     user = models.ForeignKey(
@@ -102,7 +99,6 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f'{self.user.email} -> {self.event.title}'
-
 
 class EventReview(models.Model):
     user = models.ForeignKey(

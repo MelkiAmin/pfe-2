@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<body style="font-family: Arial, sans-serif; color: #1f2937; line-height: 1.6;">
+  <h2>Event reminder</h2>
+  <p>Hello {{ user.full_name }},</p>
+  <p>This is a reminder that <strong>{{ event.title }}</strong> starts soon.</p>
+  <ul>
+    <li><strong>Starts:</strong> {{ event.start_date }}</li>
+    <li><strong>Ends:</strong> {{ event.end_date }}</li>
+  </ul>
+  <p><strong>Your tickets</strong></p>
+  <ul>
+    {% for ticket in tickets %}
+    <li>{{ ticket.ticket_number }}</li>
+    {% endfor %}
+  </ul>
+  <p>See you there,<br>Planova</p>
+</body>
+</html>

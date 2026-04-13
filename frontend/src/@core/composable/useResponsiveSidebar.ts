@@ -12,13 +12,12 @@ export const useResponsiveLeftSidebar = (mobileBreakpoint: Ref<boolean> | undefi
     isLeftSidebarOpen.value = !_mobileBreakpoint.value
   }
 
-  // Set the initial value of sidebar
   setInitialValue()
 
   watch(
     currentBreakpoint,
     () => {
-      // Reset left sidebar
+
       isLeftSidebarOpen.value = !_mobileBreakpoint.value
     },
   )

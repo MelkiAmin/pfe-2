@@ -76,47 +76,4 @@ const paymentProvidersData = [
 
     <VCard class="pa-2 pa-sm-10">
       <VCardText>
-        <!-- 👉 Title -->
-        <h4 class="text-h4 text-center mb-2">
-          Select Payment Providers
-        </h4>
-        <p class="text-body-1 text-center mb-6">
-          Third-party payment providers
-        </p>
 
-        <div
-          v-for="(item, index) in paymentProvidersData"
-          :key="index"
-        >
-          <div class="d-flex flex-column flex-sm-row justify-space-between gap-4 flex-wrap py-4">
-            <h6 class="text-h6">
-              {{ item.title }}
-            </h6>
-            <div class="d-flex gap-4 flex-wrap">
-              <img
-                v-for="(img, iterator) in item.providers"
-                :key="iterator"
-                :src="img.value"
-                height="30"
-                width="50"
-              >
-            </div>
-          </div>
-          <VDivider v-if="index !== paymentProvidersData.length - 1" />
-        </div>
-      </VCardText>
-    </VCard>
-  </VDialog>
-</template>
-
-<style lang="scss">
-.refer-link-input {
-  .v-field--appended {
-    padding-inline-end: 0;
-  }
-
-  .v-field__append-inner {
-    padding-block-start: 0.125rem;
-  }
-}
-</style>

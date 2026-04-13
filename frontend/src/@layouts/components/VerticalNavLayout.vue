@@ -22,21 +22,8 @@ const isOverlayNavActive = ref(false)
 const isLayoutOverlayVisible = ref(false)
 const toggleIsOverlayNavActive = useToggle(isOverlayNavActive)
 
-// ℹ️ This is alternative to below two commented watcher
-// We want to show overlay if overlay nav is visible and want to hide overlay if overlay is hidden and vice versa.
 syncRef(isOverlayNavActive, isLayoutOverlayVisible)
 
-// watch(isOverlayNavActive, value => {
-//   // Sync layout overlay with overlay nav
-//   isLayoutOverlayVisible.value = value
-// })
-
-// watch(isLayoutOverlayVisible, value => {
-//   // If overlay is closed via click, close hide overlay nav
-//   if (!value) isOverlayNavActive.value = false
-// })
-
-// ℹ️ Hide overlay if user open overlay nav in <md and increase the window width without closing overlay nav
 watch(windowWidth, () => {
   if (!configStore.isLessThanOverlayNavBreakpoint && isLayoutOverlayVisible.value)
     isLayoutOverlayVisible.value = false
@@ -117,7 +104,7 @@ const verticalNavAttrs = computed(() => {
 @use "@layouts/styles/mixins";
 
 .layout-wrapper.layout-nav-type-vertical {
-  // TODO(v2): Check why we need height in vertical nav & min-height in horizontal nav
+
   block-size: 100%;
 
   .layout-content-wrapper {
@@ -146,7 +133,7 @@ const verticalNavAttrs = computed(() => {
           @if variables.$layout-vertical-nav-navbar-is-contained {
             @include mixins.boxed-content;
           }
-          /* stylelint-disable-next-line @stylistic/indentation */
+
           @else {
             .navbar-content-container {
               @include mixins.boxed-content;
@@ -165,12 +152,10 @@ const verticalNavAttrs = computed(() => {
     @extend %layout-navbar-hidden;
   }
 
-  // 👉 Footer
   .layout-footer {
     @include mixins.boxed-content;
   }
 
-  // 👉 Layout overlay
   .layout-overlay {
     position: fixed;
     z-index: variables.$layout-overlay-z-index;
@@ -188,14 +173,12 @@ const verticalNavAttrs = computed(() => {
     }
   }
 
-  // Adjust right column pl when vertical nav is collapsed
   &.layout-vertical-nav-collapsed .layout-content-wrapper {
     @media screen and (min-width: 1280px) {
       padding-inline-start: variables.$layout-vertical-nav-collapsed-width;
     }
   }
 
-  // 👉 Content height fixed
   &.layout-content-height-fixed {
     .layout-content-wrapper {
       max-block-size: 100dvh;

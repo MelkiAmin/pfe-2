@@ -65,7 +65,7 @@ export const useAuth = () => {
         await authApi.logout(refreshToken.value)
     }
     catch {
-      // Even if backend logout fails, clear local auth state.
+
     }
     finally {
       clearSession()

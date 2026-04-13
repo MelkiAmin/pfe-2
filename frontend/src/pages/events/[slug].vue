@@ -59,7 +59,6 @@ const loadPage = async () => {
     const forcedId = idMatch ? Number(idMatch[1]) : null
     let found = null as null | { id: number, slug: string, title: string, description?: string, cover_image?: string | null, category?: any, event_type?: any, status?: any, venue_name?: string, address?: string, city?: string, country?: string, online_url?: string, start_date?: string, end_date?: string, max_capacity?: number | null, is_free?: boolean, tickets_sold?: number, is_sold_out?: boolean, average_rating?: number, reviews_count?: number }
 
-    // Direct ID mode from fallback links (/events/id-123)
     if (forcedId && forcedId < 9000) {
       eventData.value = await eventsApi.getById(forcedId)
       ticketTypes.value = await ticketsApi.listTicketTypes({ event: forcedId })
@@ -68,7 +67,6 @@ const loadPage = async () => {
       return
     }
 
-    // First, try backend list.
     try {
       const events = await eventsApi.list()
       found = events.find((event) => {
@@ -82,7 +80,6 @@ const loadPage = async () => {
       found = null
     }
 
-    // Fallback to fake events when backend list is empty/unavailable.
     if (!found)
       found = fakeEvents.find(event => event.slug === slug) || null
 
@@ -91,7 +88,6 @@ const loadPage = async () => {
       return
     }
 
-    // If this event comes from backend list, get full detail from API.
     if (found.id < 9000) {
       eventData.value = await eventsApi.getById(found.id)
       ticketTypes.value = await ticketsApi.listTicketTypes({ event: found.id })
@@ -100,7 +96,6 @@ const loadPage = async () => {
       return
     }
 
-    // Fake event detail fallback.
     eventData.value = {
       id: found.id,
       organizer: {

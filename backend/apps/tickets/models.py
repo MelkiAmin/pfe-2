@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 from django.conf import settings
-
+from utils.helpers import generate_qr_code
 
 class TicketType(models.Model):
     event = models.ForeignKey('events.Event', on_delete=models.CASCADE, related_name='ticket_types')
@@ -20,13 +20,12 @@ class TicketType(models.Model):
         return f'{self.event.title} - {self.name}'
 
     @property
-    def available_quantity(self):
+    def available_quantity(self) -> int:
         return self.quantity - self.quantity_sold
 
     @property
-    def is_available(self):
+    def is_available(self) -> bool:
         return self.available_quantity > 0
-
 
 class Ticket(models.Model):
     class Status(models.TextChoices):
@@ -57,3 +56,24 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f'Ticket #{self.ticket_number} - {self.event.title}'
+
+    def build_qr_payload(self) -> str:
+        return (
+            f'ticket_number={self.ticket_number};'
+            f'ticket_id={self.pk};'
+            f'event_id={self.event_id};'
+            f'attendee_id={self.attendee_id};'
+            f'status={self.status}'
+        )
+
+    def attach_qr_code(self, save=True):
+        if self.qr_code:
+            return self.qr_code
+
+        qr_file = generate_qr_code(self.build_qr_payload())
+        self.qr_code.save(f'ticket_{self.ticket_number}.png', qr_file, save=False)
+
+        if save:
+            self.save(update_fields=['qr_code', 'updated_at'])
+
+        return self.qr_code

@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-
 class Payment(models.Model):
     class Status(models.TextChoices):
         PENDING = 'pending', 'Pending'
@@ -32,7 +31,6 @@ class Payment(models.Model):
 
     def __str__(self):
         return f'Payment #{self.id} - {self.user.email} - {self.amount} {self.currency}'
-
 
 class Refund(models.Model):
     payment = models.OneToOneField(Payment, on_delete=models.CASCADE, related_name='refund')

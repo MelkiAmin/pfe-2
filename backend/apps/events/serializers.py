@@ -2,12 +2,10 @@ from rest_framework import serializers
 from .models import Event, Category, Favorite, EventReview
 from apps.accounts.serializers import UserProfileSerializer
 
-
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id', 'name', 'slug', 'description', 'icon']
-
 
 class EventListSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
@@ -26,7 +24,6 @@ class EventListSerializer(serializers.ModelSerializer):
             'average_rating', 'reviews_count',
         ]
 
-
 class EventDetailSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
     organizer = UserProfileSerializer(read_only=True)
@@ -38,7 +35,6 @@ class EventDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = '__all__'
-
 
 class EventCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,7 +49,6 @@ class EventCreateUpdateSerializer(serializers.ModelSerializer):
         validated_data['organizer'] = self.context['request'].user
         return super().create(validated_data)
 
-
 class FavoriteSerializer(serializers.ModelSerializer):
     event_title = serializers.CharField(source='event.title', read_only=True)
 
@@ -66,7 +61,6 @@ class FavoriteSerializer(serializers.ModelSerializer):
         validated_data['user'] = self.context['request'].user
         favorite, _ = Favorite.objects.get_or_create(**validated_data)
         return favorite
-
 
 class EventReviewSerializer(serializers.ModelSerializer):
     user_name = serializers.CharField(source='user.full_name', read_only=True)

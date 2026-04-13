@@ -30,25 +30,3 @@ definePage({
       Back to Home
     </VBtn>
 
-    <!-- 👉 Image -->
-    <div class="misc-avatar w-100 text-center">
-      <VImg
-        :src="misc404"
-        alt="error 404"
-        :max-height="$vuetify.display.smAndDown ? 350 : 500"
-        class="mx-auto"
-      />
-    </div>
-
-    <img
-      class="misc-footer-img d-none d-md-block"
-      :src="authThemeMask"
-      alt="misc-footer-img"
-      height="320"
-    >
-  </div>
-</template>
-
-<style lang="scss">
-@use "@core/scss/template/pages/misc.scss";
-</style>

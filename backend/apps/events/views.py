@@ -1,5 +1,6 @@
 from rest_framework import viewsets, permissions, filters, mixins
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from .models import Event, Category, Favorite, EventReview
 from .serializers import (
     EventListSerializer, EventDetailSerializer,
@@ -8,7 +9,14 @@ from .serializers import (
 )
 from utils.permissions import IsOrganizerOrAdmin, IsOwnerOrAdmin
 
-
+@extend_schema_view(
+    list=extend_schema(tags=['Events'], summary='List categories'),
+    retrieve=extend_schema(tags=['Events'], summary='Retrieve a category'),
+    create=extend_schema(tags=['Events'], summary='Create a category'),
+    update=extend_schema(tags=['Events'], summary='Replace a category'),
+    partial_update=extend_schema(tags=['Events'], summary='Update a category'),
+    destroy=extend_schema(tags=['Events'], summary='Delete a category'),
+)
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -17,7 +25,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             return [permissions.AllowAny()]
         return [IsOrganizerOrAdmin()]
-
 
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.select_related('organizer', 'category').all()
@@ -48,7 +55,15 @@ class EventViewSet(viewsets.ModelViewSet):
                 qs = qs.filter(status='published')
         return qs
 
-
+@extend_schema_view(
+    list=extend_schema(tags=['Events'], summary='List favorites'),
+    create=extend_schema(tags=['Events'], summary='Add a favorite'),
+    destroy=extend_schema(
+        tags=['Events'],
+        summary='Remove a favorite',
+        parameters=[OpenApiParameter('id', int, OpenApiParameter.PATH)],
+    ),
+)
 class FavoriteViewSet(mixins.ListModelMixin,
                       mixins.CreateModelMixin,
                       mixins.DestroyModelMixin,
@@ -59,7 +74,14 @@ class FavoriteViewSet(mixins.ListModelMixin,
     def get_queryset(self):
         return Favorite.objects.filter(user=self.request.user).select_related('event')
 
-
+@extend_schema_view(
+    list=extend_schema(tags=['Events'], summary='List event reviews'),
+    retrieve=extend_schema(tags=['Events'], summary='Retrieve an event review'),
+    create=extend_schema(tags=['Events'], summary='Create an event review'),
+    update=extend_schema(tags=['Events'], summary='Replace an event review'),
+    partial_update=extend_schema(tags=['Events'], summary='Update an event review'),
+    destroy=extend_schema(tags=['Events'], summary='Delete an event review'),
+)
 class EventReviewViewSet(viewsets.ModelViewSet):
     serializer_class = EventReviewSerializer
     queryset = EventReview.objects.select_related('user', 'event').all()

@@ -10,7 +10,6 @@ export interface LayoutConfig {
     contentLayoutNav: typeof AppContentLayoutNav[keyof typeof AppContentLayoutNav]
     overlayNavFromBreakpoint: number
 
-    // isRTL: boolean
     i18n: {
       enable: boolean
     }
@@ -47,12 +46,10 @@ export interface AclProperties {
   subject: string
 }
 
-// 👉 Vertical nav section title
 export interface NavSectionTitle extends Partial<AclProperties> {
   heading: string
 }
 
-// 👉 Vertical nav link
 declare type ATagTargetAttrValues = '_blank' | '_self' | '_parent' | '_top' | 'framename'
 declare type ATagRelAttrValues =
   | 'alternate'
@@ -84,7 +81,6 @@ export interface NavLink extends NavLinkProps, Partial<AclProperties> {
   disable?: boolean
 }
 
-// 👉 Vertical nav group
 export interface NavGroup extends Partial<AclProperties> {
   title: string
   icon?: unknown
@@ -97,16 +93,12 @@ export interface NavGroup extends Partial<AclProperties> {
 export declare type VerticalNavItems = (NavLink | NavGroup | NavSectionTitle)[]
 export declare type HorizontalNavItems = (NavLink | NavGroup)[]
 
-// 👉 Components ========================
-
 export interface I18nLanguage {
   label: string
   i18nLang: string
   isRTL: boolean
 }
 
-// avatar | text | icon
-// Thanks: https://stackoverflow.com/a/60617060/10796681
 export type Notification = {
   id: number
   title: string

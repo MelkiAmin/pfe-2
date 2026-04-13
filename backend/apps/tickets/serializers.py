@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import Ticket, TicketType
 
-
 class TicketTypeSerializer(serializers.ModelSerializer):
     available_quantity = serializers.ReadOnlyField()
     is_available = serializers.ReadOnlyField()
@@ -12,7 +11,6 @@ class TicketTypeSerializer(serializers.ModelSerializer):
                   'quantity', 'quantity_sold', 'available_quantity',
                   'is_available', 'sale_start', 'sale_end']
         read_only_fields = ['quantity_sold']
-
 
 class TicketSerializer(serializers.ModelSerializer):
     ticket_type_name = serializers.CharField(source='ticket_type.name', read_only=True)
@@ -25,7 +23,6 @@ class TicketSerializer(serializers.ModelSerializer):
                   'event', 'event_title', 'attendee', 'attendee_name',
                   'status', 'price_paid', 'qr_code', 'checked_in_at', 'created_at']
         read_only_fields = ['ticket_number', 'attendee', 'qr_code', 'checked_in_at']
-
 
 class TicketPurchaseSerializer(serializers.Serializer):
     ticket_type_id = serializers.IntegerField()

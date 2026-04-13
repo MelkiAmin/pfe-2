@@ -1,4 +1,4 @@
-// Vertical nav item badge styles
+
 
 %nav-header-action {
   font-size: 0;
@@ -13,7 +13,6 @@
   padding-inline: 0.625rem;
 }
 
-// This is same as `%vertical-nav-item` except section title is excluded
 %vertical-nav-item-interactive {
   border-radius: 0.375rem;
   block-size: 2.375rem;
@@ -25,8 +24,6 @@
   visibility: visible;
 }
 
-// Section title
-// ℹ️ Setting height will prevent jerking when text & icon is toggled
 %vertical-nav-section-title {
   block-size: 1.25rem;
   font-size: 0.8125rem;
@@ -34,7 +31,6 @@
   text-transform: uppercase;
 }
 
-// ℹ️ Icon styling for icon nested inside another nav item (2nd level)
 %vertical-nav-items-nested-icon {
   color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
 }

@@ -78,7 +78,7 @@ export const useAuthStore = defineStore('auth', {
           await apiClient.post('/auth/logout/', { refresh: this.refreshToken })
       }
       catch {
-        // ignore logout errors
+
       }
       finally {
         this.$reset()

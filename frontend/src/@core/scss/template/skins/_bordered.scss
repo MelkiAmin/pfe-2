@@ -9,29 +9,24 @@ $header: ".layout-navbar";
 }
 
 .skin--bordered {
-  // Expansion Panels
+
   @include mixins.bordered-skin(
     ".v-expansion-panels:not(.expansion-panels-width-border) .v-expansion-panel, .v-expansion-panel__shadow"
   );
 
-  // Navbar
-
-  // -- Vertical
   @if variables.$layout-vertical-nav-navbar-is-contained {
     @include mixins.bordered-skin(".layout-nav-type-vertical #{$header}");
     .layout-nav-type-vertical.window-scrolled #{$header} {
       border-block-start: 1px solid rgba(var(--v-border-color), var(--v-border-opacity)) !important;
     }
   }
-  /* stylelint-disable-next-line @stylistic/indentation */
+
  @else {
     @include mixins.bordered-skin(".layout-nav-type-vertical #{$header}", "border-bottom");
   }
 
-  // Dialog close button
   @include mixins.bordered-skin(".v-dialog-close-btn");
 
-  // Vertical Nav
   .layout-vertical-nav {
     box-shadow: none;
   }
@@ -54,7 +49,6 @@ $header: ".layout-navbar";
     }
   }
 
-  // select remove box shadow
   .v-select__content,
   .v-combobox__content,
   .v-autocomplete__content {
@@ -66,12 +60,10 @@ $header: ".layout-navbar";
     box-shadow: none !important;
   }
 
-  // calendar
   .fc .fc-popover {
     box-shadow: none;
   }
 
-  // navigation drawer
   .v-navigation-drawer:not(.app-customizer) {
     box-shadow: none;
   }

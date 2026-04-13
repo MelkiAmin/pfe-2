@@ -1,10 +1,15 @@
 {
   "recommendations": [
-    "Vue.volar",
-    "vitest.explorer",
     "dbaeumer.vscode-eslint",
-    "EditorConfig.EditorConfig",
-    "oxc.oxc-vscode",
-    "esbenp.prettier-vscode"
+    "editorconfig.editorconfig",
+    "xabikos.javascriptsnippets",
+    "stylelint.vscode-stylelint",
+    "fabiospampinato.vscode-highlight",
+    "github.vscode-pull-request-github",
+    "vue.volar",
+    "antfu.iconify",
+    "cipchk.cssrem",
+    "matijao.vue-nuxt-snippets",
+    "dongido.sync-env"
   ]
 }

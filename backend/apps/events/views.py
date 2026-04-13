@@ -1,9 +1,10 @@
-from rest_framework import viewsets, permissions, filters
+from rest_framework import viewsets, permissions, filters, mixins
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Event, Category
+from .models import Event, Category, Favorite, EventReview
 from .serializers import (
     EventListSerializer, EventDetailSerializer,
-    EventCreateUpdateSerializer, CategorySerializer
+    EventCreateUpdateSerializer, CategorySerializer,
+    FavoriteSerializer, EventReviewSerializer,
 )
 from utils.permissions import IsOrganizerOrAdmin, IsOwnerOrAdmin
 
@@ -46,3 +47,26 @@ class EventViewSet(viewsets.ModelViewSet):
                     self.request.user.role in ['organizer', 'admin']):
                 qs = qs.filter(status='published')
         return qs
+
+
+class FavoriteViewSet(mixins.ListModelMixin,
+                      mixins.CreateModelMixin,
+                      mixins.DestroyModelMixin,
+                      viewsets.GenericViewSet):
+    serializer_class = FavoriteSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Favorite.objects.filter(user=self.request.user).select_related('event')
+
+
+class EventReviewViewSet(viewsets.ModelViewSet):
+    serializer_class = EventReviewSerializer
+    queryset = EventReview.objects.select_related('user', 'event').all()
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        if self.action == 'create':
+            return [permissions.IsAuthenticated()]
+        return [IsOwnerOrAdmin()]

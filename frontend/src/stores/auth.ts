@@ -1,51 +1,98 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-import api from '@/api/axios'
+import { apiClient, authSession } from '@/services/http/axios'
 
-export const useAuthStore = defineStore('auth', () => {
-  const user = ref(JSON.parse(localStorage.getItem('user') || 'null'))
-  const accessToken = ref(localStorage.getItem('access_token') || '')
-  const refreshToken = ref(localStorage.getItem('refresh_token') || '')
+type UserRole = 'user' | 'attendee' | 'organizer' | 'admin'
 
-  const isAuthenticated = computed(() => !!accessToken.value)
+type AuthUser = {
+  id: number
+  email: string
+  first_name: string
+  last_name: string
+  role: UserRole
+}
 
-  async function register(data: object) {
-    const response = await api.post('/auth/register/', data)
-    setAuth(response.data)
-    return response.data
-  }
+type LoginPayload = {
+  email: string
+  password: string
+  rememberMe: boolean
+}
 
-  async function login(credentials: object) {
-    const response = await api.post('/auth/login/', credentials)
-    setAuth(response.data)
-    return response.data
-  }
+export const useAuthStore = defineStore('auth', {
+  state: () => ({
+    user: null as AuthUser | null,
+    accessToken: null as string | null,
+    refreshToken: null as string | null,
+    loading: false,
+    error: '',
+  }),
+  getters: {
+    isAuthenticated: state => Boolean(state.accessToken),
+    role: state => state.user?.role || 'attendee',
+  },
+  actions: {
+    bootstrap() {
+      const accessToken = useCookie<string | null>('accessToken').value
+      const refreshToken = useCookie<string | null>('refreshToken').value
+      const userData = useCookie<AuthUser | null>('userData').value
 
-  async function logout() {
-    try {
-      await api.post('/auth/logout/', { refresh: refreshToken.value })
-    } catch {}
-    clearAuth()
-  }
+      this.accessToken = accessToken
+      this.refreshToken = refreshToken
+      this.user = userData
+    },
 
-  function setAuth(data: any) {
-    user.value = data.user
-    accessToken.value = data.tokens.access
-    refreshToken.value = data.tokens.refresh
-    localStorage.setItem('user', JSON.stringify(data.user))
-    localStorage.setItem('access_token', data.tokens.access)
-    localStorage.setItem('refresh_token', data.tokens.refresh)
-  }
+    async login(payload: LoginPayload) {
+      this.loading = true
+      this.error = ''
 
-  function clearAuth() {
-    user.value = null
-    accessToken.value = ''
-    refreshToken.value = ''
-    localStorage.clear()
-  }
+      try {
+        const { data } = await apiClient.post('/auth/login/', {
+          email: payload.email,
+          password: payload.password,
+        })
 
-  return {
-    user, accessToken, isAuthenticated,
-    register, login, logout,
-  }
+        this.user = data.user
+        this.accessToken = data.tokens.access
+        this.refreshToken = data.tokens.refresh
+
+        authSession.setSession({
+          access: data.tokens.access,
+          refresh: data.tokens.refresh,
+          user: data.user,
+        }, payload.rememberMe)
+
+        return data.user as AuthUser
+      }
+      catch (error: any) {
+        const detail = error?.response?.data?.detail
+        this.error = typeof detail === 'string' ? detail : 'Email ou mot de passe incorrect.'
+        throw new Error(this.error)
+      }
+      finally {
+        this.loading = false
+      }
+    },
+
+    async logout() {
+      try {
+        if (this.refreshToken)
+          await apiClient.post('/auth/logout/', { refresh: this.refreshToken })
+      }
+      catch {
+        // ignore logout errors
+      }
+      finally {
+        this.$reset()
+        authSession.clear()
+      }
+    },
+
+    dashboardRouteByRole(role?: UserRole) {
+      const safeRole = role || this.role
+      if (safeRole === 'organizer')
+        return '/organizer/dashboard'
+      if (safeRole === 'admin')
+        return '/admin/dashboard'
+      return '/dashboard/wallet'
+    },
+  },
 })

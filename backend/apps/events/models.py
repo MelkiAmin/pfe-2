@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.db.models import Avg
 
 
 class Category(models.Model):
@@ -69,3 +70,60 @@ class Event(models.Model):
         if self.max_capacity is None:
             return False
         return self.tickets_sold >= self.max_capacity
+
+    @property
+    def reviews_count(self):
+        return self.reviews.count()
+
+    @property
+    def average_rating(self):
+        data = self.reviews.aggregate(avg=Avg('rating'))
+        avg = data.get('avg')
+        return float(avg) if avg is not None else 0.0
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='favorite_events',
+    )
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        related_name='favorited_by',
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'event_favorites'
+        unique_together = ('user', 'event')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.user.email} -> {self.event.title}'
+
+
+class EventReview(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='event_reviews',
+    )
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        related_name='reviews',
+    )
+    rating = models.PositiveSmallIntegerField()
+    comment = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'event_reviews'
+        unique_together = ('user', 'event')
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.event.title} review by {self.user.email}'
